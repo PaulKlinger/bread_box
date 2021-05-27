@@ -4,6 +4,7 @@
 /bread_box_code/build/
 /bread_box_code/dist/
 /bread_box_code/disassembly/
+/bread_box_code/.generated_files/
 /bread_box_code/nbproject/Makefile-*
 /bread_box_code/nbproject/Package-*
 /bread_box_code/nbproject/private/
