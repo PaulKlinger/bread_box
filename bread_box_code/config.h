@@ -1,9 +1,4 @@
-/* 
- * File:   config.h
- * Author: kling
- *
- * Created on 22 March 2021, 17:35
- */
+#include <avr/io.h>
 
 #ifndef CONFIG_H
 #define	CONFIG_H
@@ -14,6 +9,11 @@ extern "C" {
 
 #define F_CPU 16000000
 
+struct config {
+    uint8_t thresh_shutter, thresh_fan_low, thresh_fan_high, hysteresis;
+};
+
+#define SENSOR_ADDR 0x44
 
 #ifdef	__cplusplus
 }
