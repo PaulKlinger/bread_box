@@ -56,7 +56,6 @@ static struct {
 } cursorPosition;
 #if defined GRAPHICMODE
 #include <stdlib.h>
-uint8_t displayBuffer[DISPLAY_HEIGHT/8][DISPLAY_WIDTH];
 #elif defined TEXTMODE
 #else
 #error "No valid displaymode! Refer lcd.h"

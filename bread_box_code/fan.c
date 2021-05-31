@@ -5,12 +5,11 @@
 
 #include "fan.h"
 
-volatile uint8_t fan_pwm_cnt = 0; // /4
-volatile uint8_t fan_pwm_level = 0; // /4
+volatile uint8_t fan_pwm_cnt; // / 4
 
 ISR(TCB0_INT_vect) {
     fan_pwm_cnt = (fan_pwm_cnt + 1) % 4;
-    if (fan_pwm_cnt < fan_pwm_level) {
+    if (fan_pwm_cnt < current_fan_state) {
         VPORTB.OUT |= PIN3_bm;
     } else {
         VPORTB.OUT &= ~PIN3_bm;
@@ -26,16 +25,20 @@ void setup_fan() {
     TCB0.CCMP = 100; // 25us interval
     
     VPORTB.DIR |= PIN3_bm;
+    
+    fan_pwm_cnt = 0;
+    
+    current_fan_state = FAN_OFF;
 }
 
 void set_fan_low() {
-    if (fan_pwm_level == 0) {
+    if (current_fan_state == FAN_OFF) {
         // startup pulse
-        fan_pwm_level = 4;
+        current_fan_state = FAN_HIGH;
         _delay_ms(300);
     }
-    fan_pwm_level = 2;
+    current_fan_state = FAN_LOW;
 }
 
-void set_fan_high() {fan_pwm_level = 4;}
-void turn_off_fan() {fan_pwm_level = 0;}
+void set_fan_high() {current_fan_state = FAN_HIGH;}
+void turn_off_fan() {current_fan_state = FAN_OFF;}

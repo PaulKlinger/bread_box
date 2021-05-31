@@ -43,7 +43,7 @@ int main(void) {
     struct config cfg = {
         .thresh_shutter = 50,
         .thresh_fan_low = 60,
-        .thresh_fan_high = 70,
+        .thresh_fan_high = 65,
         .hysteresis = 5
     };
     
@@ -62,7 +62,10 @@ int main(void) {
         if (reading.humidity > cfg.thresh_shutter) {
             open_shutter();
         }
-        if (reading.humidity > cfg.thresh_fan_low) {
+        if (reading.humidity > cfg.thresh_fan_low
+            && !(current_fan_state == FAN_HIGH 
+                 && reading.humidity >= cfg.thresh_fan_high - cfg.hysteresis)
+            ) {
             set_fan_low();
         }
         
