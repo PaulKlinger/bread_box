@@ -21,8 +21,10 @@ void setup_shutter(){
 
 inline void open_shutter() {
     TCA0.SINGLE.CMP2 = 270;
+    shutter_open = true;
 }
 
 inline void close_shutter() {
     TCA0.SINGLE.CMP2 = 545;
+    shutter_open = false;
 }

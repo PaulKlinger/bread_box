@@ -4,7 +4,8 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
-
+#include <stdbool.h>
+    bool shutter_open;
 
     void setup_shutter();
     void open_shutter();

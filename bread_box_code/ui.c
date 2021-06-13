@@ -6,6 +6,8 @@
 #include "lcd.h"
 #include "ui.h"
 #include "buttons.h"
+#include "shutter.h"
+#include "fan.h"
 
 #define NUM_OPTIONS  4
 
@@ -46,8 +48,25 @@ void draw_reading(struct sensor_reading reading) {
     lcd_puts(hum_output);
 }
 
+void draw_status() {
+    lcd_gotoxy(9, 0);
+    lcd_puts(shutter_open ? "|" : "-");
+    lcd_puts("   ");
+    switch (current_fan_state) {
+        case FAN_HIGH:
+            lcd_putc('h');
+            break;
+        case FAN_LOW:
+            lcd_putc('l');
+            break;
+        case FAN_OFF:
+            lcd_putc('o');
+            break;
+    }
+}
+
 void draw_menu(struct ui_state state, struct config *current_config) {
-    lcd_gotoxy(0, 2 + state.selected_option);
+    lcd_gotoxy(0, 3 + state.selected_option);
     if (state.modify) {
         lcd_putc('~');
     } else {
@@ -140,6 +159,7 @@ void update_ui(struct sensor_reading reading, struct config *cfg) {
     update_ui_state(&current_ui_state, cfg, &btn_state);
     lcd_clear_buffer();
     draw_reading(reading);
+    draw_status();
     draw_menu(current_ui_state, cfg);
     lcd_display();
 }
