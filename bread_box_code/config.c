@@ -15,9 +15,14 @@ struct config default_config = {
         .hysteresis = 5
     };
 
-uint8_t calc_checksum(struct config cfg) {
+uint8_t calc_checksum(void *data, uint16_t size) {
     // add an offset, so the checksum is not correct when EEPROM is all zeros
-    return 42 + cfg.hysteresis + cfg.thresh_fan_high + cfg.thresh_fan_low + cfg.thresh_shutter;
+    uint8_t checksum = 42;
+    while (size > 0) {
+        size--;
+        checksum += *(((uint8_t *) data) + size);
+    }
+    return checksum;
 }
 
 void save_config(struct config conf) {
@@ -25,7 +30,7 @@ void save_config(struct config conf) {
     // (read is >10x faster than write)
     StoredConfig new_store = {
         .cfg = conf,
-        .checksum = calc_checksum(conf),
+        .checksum = calc_checksum(&conf, sizeof(conf)),
     };
     eeprom_update_block(&new_store, &stored_config, sizeof(new_store));
 }
@@ -33,8 +38,8 @@ void save_config(struct config conf) {
 struct config load_config() {
     StoredConfig loaded_data;
     eeprom_read_block(&loaded_data, &stored_config, sizeof(loaded_data));
-    
-    if (calc_checksum(loaded_data.cfg) != loaded_data.checksum){
+    if (calc_checksum(&(loaded_data.cfg), sizeof(loaded_data.cfg)) 
+            != loaded_data.checksum){
         save_config(default_config);
         return default_config;
     } 
