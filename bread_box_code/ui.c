@@ -111,6 +111,8 @@ void update_ui_state(
                 break;
             case BTN_SELECT:
                 state->modify = false;
+                save_config(*cfg);
+                
                 break;
             case BTN_NONE:
                 return;

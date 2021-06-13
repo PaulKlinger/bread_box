@@ -40,12 +40,7 @@ int main(void) {
     
     sei();
     
-    struct config cfg = {
-        .thresh_shutter = 50,
-        .thresh_fan_low = 60,
-        .thresh_fan_high = 65,
-        .hysteresis = 5
-    };
+    struct config cfg = load_config();
     
     struct sensor_reading reading;
     uint8_t take_reading_cnt = 0;

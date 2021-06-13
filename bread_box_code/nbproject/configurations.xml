@@ -30,6 +30,7 @@
       <itemPath>shutter.c</itemPath>
       <itemPath>ui.c</itemPath>
       <itemPath>sensor.c</itemPath>
+      <itemPath>config.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

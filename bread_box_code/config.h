@@ -13,6 +13,11 @@ struct config {
     uint8_t thresh_shutter, thresh_fan_low, thresh_fan_high, hysteresis;
 };
 
+void save_config(struct config);
+
+struct config load_config();
+
+
 #define SENSOR_ADDR 0x44
 
 #ifdef	__cplusplus
