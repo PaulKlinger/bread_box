@@ -66,7 +66,7 @@ void draw_status() {
 }
 
 void draw_menu(struct ui_state state, struct config *current_config) {
-    lcd_gotoxy(0, 3 + state.selected_option);
+    lcd_gotoxy(0, 2 + state.selected_option);
     if (state.modify) {
         lcd_putc('~');
     } else {
