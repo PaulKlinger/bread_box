@@ -5,10 +5,10 @@
 
 #include "fan.h"
 
-volatile uint8_t fan_pwm_cnt; // / 4
+volatile uint8_t fan_pwm_cnt; // 0-7
 
 ISR(TCB0_INT_vect) {
-    fan_pwm_cnt = (fan_pwm_cnt + 1) % 4;
+    fan_pwm_cnt = (fan_pwm_cnt + 1) % 8;
     if (fan_pwm_cnt < current_fan_state) {
         VPORTB.OUT |= PIN3_bm;
     } else {
@@ -22,7 +22,7 @@ void setup_fan() {
     TCB0.CTRLA = TCB_ENABLE_bm | TCB_CLKSEL_CLKDIV2_gc;
     TCB0.CTRLB = TCB_CNTMODE_INT_gc; // periodic interrupt mode
     TCB0.INTCTRL = TCB_CAPT_bm; // enable periodic interrupt
-    TCB0.CCMP = 100; // 25us interval
+    TCB0.CCMP = 50; // 12.5us interval
     
     VPORTB.DIR |= PIN3_bm;
     
