@@ -7,8 +7,8 @@ extern "C" {
     
     enum fan_state {
         FAN_OFF = 0,
-        FAN_LOW = 9,
-        FAN_HIGH = 10
+        FAN_LOW = 3,
+        FAN_HIGH = 6
     };
     
 
